@@ -1,0 +1,37 @@
+# ---- Dados do SOSD (dezenas de GB) — NUNCA versionar ----
+data/
+*.zst
+books_*_uint*
+fb_*_uint*
+wiki_*_uint*
+osm_*_uint*
+*_uint32
+*_uint64
+
+# ---- Saidas geradas pelo pipeline (reproduziveis, nao versionar) ----
+*.trace
+*.expected
+*.out
+*_metrics.csv
+
+# ---- Graficos gerados (regeneraveis a partir das metricas) ----
+# Comente a linha abaixo se quiser versionar as figuras finais do relatorio
+*.png
+*.pdf.tmp
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.numba_cache/
+
+# ---- Sistema operacional / editores ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- OBS: a pasta de prompts (dump §10) NAO e ignorada de proposito ----
+# prompts/  <- versionada
