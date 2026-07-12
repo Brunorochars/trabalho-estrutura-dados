@@ -69,6 +69,9 @@ def run(args):
 
     t_ins, t_del, t_srch = [], [], []
     n_i = n_d = n_s = 0
+    peak_size = 0          # maior n atingido (eixo x real dos graficos de escala)
+    peak_height = 0        # maior altura atingida (evidencia do balanceamento)
+    sample_every = 1000    # amostra altura periodicamente (height() e O(n))
 
     out = open(args.out, "w")
     perf = time.perf_counter_ns
@@ -81,6 +84,13 @@ def run(args):
             k = int(line[2:])
             if op == "I":
                 t0 = perf(); ds.insert(k); t_ins.append(perf() - t0); n_i += 1
+                cur = len(ds)
+                if cur > peak_size:
+                    peak_size = cur
+                if args.struct == "treap" and n_i % sample_every == 0:
+                    h = ds.height()
+                    if h > peak_height:
+                        peak_height = h
             elif op == "D":
                 t0 = perf(); ds.delete(k); t_del.append(perf() - t0); n_d += 1
             elif op == "S":
@@ -88,6 +98,8 @@ def run(args):
                 t_srch.append(dt); n_s += 1
                 out.write(f"{k} {'FOUND' if found else 'NOT_FOUND'}\n")
     out.close()
+
+    height_final = ds.height() if args.struct == "treap" else -1
 
     def stats(name, ts):
         if not ts:
@@ -101,7 +113,8 @@ def run(args):
     sys.stderr.write("[runner] " + stats("D", t_del) + "\n")
     sys.stderr.write("[runner] " + stats("S", t_srch) + "\n")
     sys.stderr.write(f"[runner] estrutura={args.struct} agg={args.agg} "
-                     f"altura_final={ds.height()} rotacoes={getattr(ds,'rotations',0)} "
+                     f"pico_n={peak_size} pico_altura={peak_height} "
+                     f"altura_final={height_final} rotacoes={getattr(ds,'rotations',0)} "
                      f"tamanho_final={len(ds)}\n")
 
     if args.metrics:
@@ -110,8 +123,8 @@ def run(args):
         header = not os.path.exists(args.metrics)
         with open(args.metrics, "a") as fm:
             if header:
-                fm.write("struct,agg,seed,trace,op,n,mean_ns,p50_ns,p99_ns,"
-                         "height,rotations,size_final\n")
+                fm.write("struct,agg,seed,trace,op,n_ops,mean_ns,p50_ns,p99_ns,"
+                         "peak_n,peak_height,height_final,rotations,size_final\n")
             for name, ts in (("I", t_ins), ("D", t_del), ("S", t_srch)):
                 if not ts:
                     continue
@@ -119,7 +132,8 @@ def run(args):
                 fm.write(f"{args.struct},{args.agg},{args.seed},{args.trace},"
                          f"{name},{len(ts)},{sum(ts)/len(ts):.3f},"
                          f"{percentile(s,0.50):.3f},{percentile(s,0.99):.3f},"
-                         f"{ds.height()},{getattr(ds,'rotations',0)},{len(ds)}\n")
+                         f"{peak_size},{peak_height},{height_final},"
+                         f"{getattr(ds,'rotations',0)},{len(ds)}\n")
 
 
 def main():
