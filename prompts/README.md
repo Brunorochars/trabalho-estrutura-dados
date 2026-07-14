@@ -1,29 +1,67 @@
-# Dump de prompts (§10)
+# Dump de prompts (§10) — Grupo 9
 
-Esta pasta reúne o histórico de interações com o assistente de IA (Claude Code)
-usado como ferramenta de auxílio para a parte de código do projeto, conforme
-permitido pelo enunciado (§2, §11): *"o uso de ferramentas de auxílio (incluindo
-modelos de linguagem) é permitido para a parte de código"*, com a avaliação
-recaindo sobre o **raciocínio e a iteração demonstrados**, não sobre o volume.
+Esta pasta reúne o histórico de interações com assistentes de IA usados como
+ferramenta de auxílio para a parte de código do projeto, conforme permitido
+pelo enunciado (§2, §11): *"o uso de ferramentas de auxílio (incluindo modelos
+de linguagem) é permitido para a parte de código"*, com a avaliação recaindo
+sobre o **raciocínio e a iteração demonstrados**, não sobre o volume.
 
-## Arquivos
+## Membros e ferramentas
 
-- [`sessao_2026-07-12.md`](sessao_2026-07-12.md) — sessão que: (1) auditou o
-  repositório contra o enunciado; (2) adicionou rastreio de `peak_size`/`peak_height`
-  ao `runner.py`; (3) criou `run_experiments.sh` e `plots.py`; (4) resolveu a
-  autenticação SSH para push no GitHub; (5) corrigiu o `.gitignore`; (6) revisou
-  o enunciado seção a seção e identificou lacunas (escala com menos de 4 ordens
-  de grandeza, gráficos não gerados, README com comando Docker quebrado,
-  entregáveis §8/§10 ausentes); (7) executou as correções por ordem de urgência.
+| Membro | Ferramenta | Pasta |
+|---|---|---|
+| Bruno Rocha | Claude Code (Anthropic) | [`bruno-claude/`](bruno-claude/) |
+| Andreus Dean Vargas | Claude Code (Anthropic) | [`andreus-claude/`](andreus-claude/) |
+| Gabriel Ortiz | GitHub Copilot / Codex | [`gabriel-codex/`](gabriel-codex/) |
 
-## Observação importante
+---
 
-O commit inicial do repositório (`983367e "Treap aumentada, runner, gen_workload,
-Dockerfile, README e gitignore"`) foi produzido em uma sessão anterior, cujo
-histórico de prompts **não está capturado aqui** porque não fez parte desta
-conversa. Se essa sessão anterior existir em outra conversa salva, seu dump
-precisa ser adicionado a esta pasta antes da entrega — caso contrário, declarar
-explicitamente no relatório que o núcleo da treap (`treap.py`) e o gerador de
-carga (`gen_workload.py`) foram produzidos com auxílio de IA em uma sessão não
-registrada, para cumprir a regra do §11 ("identifique claramente, no relatório,
-qualquer parte cuja autoria não seja do grupo").
+## Bruno Rocha — Claude Code
+
+### [`sessao_inicial_nao_capturada.md`](bruno-claude/sessao_inicial_nao_capturada.md)
+Declaração formal da sessão inicial (anterior a 2026-07-12), na qual foram
+produzidos `treap.py`, a versão inicial de `runner.py` e o `README.md`. A
+sessão ocorreu antes de o grupo estruturar esta pasta para registro. As
+decisões técnicas tomadas nessa sessão estão documentadas em
+`JUSTIFICATIVA.md`.
+
+### [`sessao_2026-07-12.md`](bruno-claude/sessao_2026-07-12.md)
+Sessão que auditou o repositório contra o enunciado (§1–§11), identificou
+lacunas (escala com menos de 4 ordens de grandeza, gráficos não gerados,
+entregáveis §8/§10 ausentes), adicionou rastreio de `peak_size`/`peak_height`
+ao `runner.py`, criou `run_experiments.sh` e `plots.py`, resolveu autenticação
+SSH, e executou as correções por ordem de urgência.
+
+---
+
+## Andreus Dean Vargas — Claude Code
+
+### [`sessao_2026-07-14.md`](andreus-claude/sessao_2026-07-14.md)
+Primeira sessão de Andreus. Leitura completa do enunciado, identificação dos
+parâmetros do grupo 9, inventário e auditoria técnica do repositório
+(corretude dos invariantes da treap, comportamento de `_range`, profundidade
+de recursão), identificação do gap nos prompts, e execução da reorganização
+desta pasta para estrutura multi-membro.
+
+---
+
+## Gabriel Ortiz — GitHub Copilot / Codex
+
+As sessões de Gabriel serão adicionadas a [`gabriel-codex/`](gabriel-codex/)
+conforme ele as exportar ou reconstruir. Ver
+[`gabriel-codex/COMO_EXPORTAR.md`](gabriel-codex/COMO_EXPORTAR.md) para
+instruções de formato.
+
+---
+
+## Observação sobre a avaliação (§10)
+
+O §10 avalia a **qualidade do raciocínio e da iteração** nas interações com
+IA — não o volume de texto. Os arquivos nesta pasta mostram, em cada sessão:
+- o que o membro estava tentando resolver (prompt)
+- por que aquela abordagem foi escolhida (raciocínio)
+- o que foi aceito, modificado ou rejeitado (resultado)
+
+Perguntas do tipo "faça X" sem explicar *por que* têm menos valor avaliativo
+do que perguntas que demonstram que o membro entendeu o problema antes de
+pedir ajuda.
