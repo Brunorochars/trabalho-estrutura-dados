@@ -13,11 +13,14 @@ osm_*_uint*
 *.expected
 *.out
 *_metrics.csv
+results/*
+traces/
 
 # ---- Graficos gerados (regeneraveis a partir das metricas) ----
-# Comente a linha abaixo se quiser versionar as figuras finais do relatorio
 *.png
 *.pdf.tmp
+# excecao: results/*.png SAO versionados (figuras finais do relatorio, §7/§8)
+!results/*.png
 
 # ---- Python ----
 __pycache__/
@@ -32,6 +35,7 @@ venv/
 Thumbs.db
 .vscode/
 .idea/
+*Zone.Identifier*
 
 # ---- OBS: a pasta de prompts (dump §10) NAO e ignorada de proposito ----
 # prompts/  <- versionada
