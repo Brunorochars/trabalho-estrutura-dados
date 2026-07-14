@@ -45,12 +45,18 @@ desta pasta para estrutura multi-membro.
 
 ---
 
-## Gabriel Ortiz — GitHub Copilot / Codex
+## Gabriel Ortiz — Codex CLI
 
-As sessões de Gabriel serão adicionadas a [`gabriel-codex/`](gabriel-codex/)
-conforme ele as exportar ou reconstruir. Ver
-[`gabriel-codex/COMO_EXPORTAR.md`](gabriel-codex/COMO_EXPORTAR.md) para
-instruções de formato.
+### [`sessao_2026-07-14_entendimento_inicial.md`](gabriel-codex/sessao_2026-07-14_entendimento_inicial.md)
+Sessão inicial de Gabriel para entender o enunciado, identificar os parâmetros
+do grupo 9 e decidir uma contribuição inicial sem alterar código já revisado.
+
+### [`sessao_2026-07-14_revisao_independente.md`](gabriel-codex/sessao_2026-07-14_revisao_independente.md)
+Sessão de revisão independente feita por Gabriel com o Codex CLI. Foram auditados
+a treap, o runner, o pipeline do oráculo e os experimentos do grupo 9. A sessão
+confirmou a corretude geral da implementação e registrou riscos/pendências para
+testes das operações aumentadas, interpretação dos gráficos e reprodutibilidade
+das métricas
 
 ---
 
