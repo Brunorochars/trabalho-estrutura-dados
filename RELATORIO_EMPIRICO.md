@@ -1,4 +1,36 @@
-# Relatório empírico — Grupo 9
+UNIVERSIDADE FEDERAL DO PAMPA
+Engenharia de Software
+
+# Relatório Empírico — Estruturas Balanceadas Aumentadas sob Carga Real em Larga Escala
+
+Implementação, medição empírica e defesa de uma árvore de busca balanceada aumentada (treap) sobre dados reais de centenas de milhões de chaves.
+
+Disciplina: Estruturas de Dados
+
+Bruno da Silva Rocha
+Andreus Dean Vargas
+Gabriel Ortiz
+
+Grupo 9
+
+2026
+
+---
+
+## Sumário
+
+- [Metodologia](#metodologia)
+- [1. Escala (§7.1)](#1-escala-71)
+- [2. Sensibilidade ao enviesamento Zipfiano (§7.2)](#2-sensibilidade-ao-enviesamento-zipfiano-72)
+- [3. Caso patológico: shuffle × sorted (§7.3)](#3-caso-patológico-shuffle--sorted-73)
+- [4. Teoria × prática (§7.4)](#4-teoria--prática-74)
+- [5. Linha de base: treap × lista ordenada (§7.5)](#5-linha-de-base-treap--lista-ordenada-75)
+- [Limitações e ameaças à validade](#limitações-e-ameaças-à-validade)
+- [Uso de IA](#uso-de-ia)
+- [Divisão de tarefas](#divisão-de-tarefas)
+- [Referências](#referências)
+
+---
 
 ## Metodologia
 
@@ -25,6 +57,8 @@
 ## 1. Escala (§7.1)
 
 Ver `results/escala.png`.
+
+![Gráfico de escala: tempo médio de insert/delete/search (ns) em função de n (escala log), com curva teórica O(log n) sobreposta](results/escala.png)
 
 | n (pico) | insert méd. (ns) | delete méd. (ns) | search méd. (ns) | altura pico |
 |---:|---:|---:|---:|---:|
@@ -54,6 +88,8 @@ jamais rotacionar.
 Ver `results/theta.png`. `n` fixo em ~170 mil (`--universe` correspondente a
 `n_alvo=100000`).
 
+![Gráfico de sensibilidade a theta: tempo médio de insert/delete/search (ns) para theta em {0.0, 0.6, 0.99, 1.2}](results/theta.png)
+
 | theta | insert méd. (ns) | delete méd. (ns) | search méd. (ns) | altura pico |
 |---:|---:|---:|---:|---:|
 | 0.0 | 13 079 | 10 158 | 2 601 | 48 |
@@ -78,6 +114,8 @@ buscadas/removidas, não a forma estrutural resultante da inserção.
 
 Ver `results/patologico.png`. `n` fixo em ~16 mil.
 
+![Gráfico do caso patológico: altura e rotações comparando inserção shuffle vs sorted](results/patologico.png)
+
 | ordem | insert méd. (ns) | rotações | altura pico | log₂(n) teórico |
 |---|---:|---:|---:|---:|
 | shuffle | 6 076 | 1 030 738 | 34 | ~14 |
@@ -98,9 +136,11 @@ de prioridade são necessárias para restaurar o heap a cada inserção.
 
 ## 4. Teoria × prática (§7.4)
 
-Ver `results/escala.png` (curva `O(log n) teórico` sobreposta) e
+Ver `results/escala.png` (curva `O(log n) teórico` sobreposta, seção 1 acima) e
 `results/rotacoes.png` (altura medida vs. `log₂(n)` vs. `1.39·log₂(n)`,
 o valor esperado para treaps).
+
+![Gráfico de rotações: altura medida vs log2(n) vs 1,39·log2(n) ao longo do regime de churn](results/rotacoes.png)
 
 **Leitura:** a altura de pico medida cresce de 10 (n=89) a 56 (n≈1,75 milhão)
 — logarítmico, não linear, confirmando que a implementação está de fato no
@@ -141,6 +181,8 @@ puramente logarítmica sugeriria.
 ## 5. Linha de base: treap × lista ordenada (§7.5)
 
 Ver `results/baseline.png`.
+
+![Gráfico da linha de base: treap vs lista ordenada, tempo médio de insert/search (ns) em função de n](results/baseline.png)
 
 | n (pico) | insert treap (ns) | insert baseline (ns) | search treap (ns) | search baseline (ns) |
 |---:|---:|---:|---:|---:|
@@ -184,3 +226,36 @@ de vezes).
 - `time.perf_counter_ns()` em Python tem overhead de chamada não-desprezível
   em operações de nanossegundos de duração — parte do "piso" observado em
   `n` pequeno é esse overhead de instrumentação, não custo real da estrutura.
+
+## Uso de IA
+
+Ferramentas de IA (Claude Code e GitHub Copilot/Codex) foram usadas como
+apoio à parte de código deste projeto, conforme permitido pelo enunciado
+(§2, §11). O histórico completo de sessões, por integrante — o que cada
+membro tentou resolver, o raciocínio por trás de cada decisão e o que foi
+aceito, modificado ou rejeitado — está documentado em
+[`prompts/`](prompts/README.md). Nenhum número deste relatório foi gerado ou
+alterado por IA: todos vêm de `results/metrics.csv`, produzido por
+`run_experiments.sh` rodando na máquina do grupo (ver Metodologia), conforme
+exigido pelo enunciado (§11, "o relatório empírico deve refletir medições
+reais da máquina do grupo").
+
+## Divisão de tarefas
+
+| Integrante | Contribuição |
+|---|---|
+| Bruno da Silva Rocha | Implementação inicial da treap aumentada (`treap.py`), do `runner.py` e do `README.md`; auditoria do repositório contra o enunciado (§1–§11), instrumentação de `peak_size`/`peak_height`, criação de `run_experiments.sh` e `plots.py` (geração dos gráficos deste relatório) |
+| Andreus Dean Vargas | Leitura do enunciado e identificação dos parâmetros do grupo 9; auditoria técnica dos invariantes da treap (corretude sob rotação, comportamento de `_range`, profundidade de recursão); organização e estruturação do dump de prompts multi-membro |
+| Gabriel Ortiz | Revisão independente da treap, do runner e do pipeline do oráculo; confirmação da corretude geral da implementação; registro de riscos e pendências sobre testes das operações aumentadas, interpretação dos gráficos e reprodutibilidade das métricas |
+
+## Referências
+
+KIPF, A. et al. *SOSD: A Benchmark for Learned Indexes*. arXiv:1911.13014, 2019.
+
+COOPER, B. F. et al. *Benchmarking Cloud Serving Systems with YCSB*. SoCC 2010.
+(distribuição Zipfiana de acessos — base do parâmetro `--theta`.)
+
+CORMEN, T. et al. *Introduction to Algorithms*. Capítulo sobre árvores de
+busca aumentadas.
+
+Repositório SOSD — github.com/learnedsystems/SOSD
